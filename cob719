@@ -1,0 +1,51 @@
+#!/bin/bash
+
+echo "Программа для поиска файлов"
+
+echo "С помощью данной программы вы можете искать файлы по имени и проверять были ли они изменены после даты, которую вы укажете."
+
+echo "Чагдуров Очир"
+
+pwd
+
+label1()
+{ 
+    echo "Ошибка. Файл с данным именем не существует"
+    while true; do
+    read -p "Хотите продолжить?" yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+    esac
+done
+if [ ! -f "$name" ]; then label2; fi;
+}
+
+label2(){
+echo "Введите имя файла"
+
+read name
+
+find . -maxdepth 1 -type f -name "$name"
+
+if [ ! -f "$name" ]; then label1; fi;
+}
+
+echo "Введите имя файла"
+
+read name
+
+find . -maxdepth 1 -type f -name "$name"
+
+if [ ! -f "$name" ]; then label1; fi;
+
+echo "Введите дату"
+
+read data
+
+if (( "$(stat $name -c '%z' | xargs -I '{}' date -d '{}' +'%s')" <= "$(date --date="$data" +%s)" )) ; then
+echo "Файл $name не изменялся после $data"
+else
+echo "Файл $name был изменен после $data"
+fi
+
