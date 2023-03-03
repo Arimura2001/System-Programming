@@ -44,8 +44,9 @@ echo "Введите дату"
 read data
 
 if (( "$(stat $name -c '%z' | xargs -I '{}' date -d '{}' +'%s')" <= "$(date --date="$data" +%s)" )) ; then
-echo "Файл $name не изменялся после $data"
+   echo "Файл $name не изменялся после $data"
 else
-echo "Файл $name был изменен после $data"
+   echo "Файл $name был изменен после $data"
+   exit 120
 fi
 
